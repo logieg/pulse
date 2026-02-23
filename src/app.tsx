@@ -1,5 +1,5 @@
-import { Controls } from './components/Controls.jsx';
-import { Grid } from './components/Grid.jsx';
+import { Controls } from './components/Controls';
+import { Grid } from './components/Grid';
 
 export function App() {
   return (

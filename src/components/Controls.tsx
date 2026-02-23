@@ -1,5 +1,5 @@
-import { togglePlay } from '../engine.js';
-import { bpm as bpmSignal, isPlaying as isPlayingSignal } from '../state.js';
+import { togglePlay } from '../engine';
+import { bpm as bpmSignal, isPlaying as isPlayingSignal } from '../state';
 
 export function Controls() {
   return (
@@ -34,7 +34,7 @@ export function Controls() {
           min="60"
           max="200"
           value={bpmSignal.value}
-          onInput={(e) => bpmSignal.value = parseInt(e.target.value, 10)}
+          onInput={(e) => bpmSignal.value = parseInt((e.target as HTMLInputElement).value, 10)}
           className="w-full h-2 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-cyan-500"
         />
       </div>

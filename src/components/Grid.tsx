@@ -1,5 +1,5 @@
-import { tracks, currentStep } from '../state.js';
-import { TrackRow } from './TrackRow.jsx';
+import { tracks, currentStep } from '../state';
+import { TrackRow } from './TrackRow';
 
 export function Grid() {
   return (

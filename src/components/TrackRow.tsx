@@ -1,6 +1,6 @@
-import { toggleStep, currentStep } from '../state.js';
+import { toggleStep, currentStep, Track } from '../state';
 
-export function TrackRow({ track, trackIndex }) {
+export function TrackRow({ track, trackIndex }: { track: Track, trackIndex: number }) {
   return (
     <div className="flex items-center gap-2 mb-3 bg-slate-800/50 p-2 rounded-lg hover:bg-slate-800 transition-colors">
       <div className="w-24 flex-shrink-0 text-right pr-4 font-mono font-medium text-slate-300">

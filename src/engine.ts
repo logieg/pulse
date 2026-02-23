@@ -1,9 +1,9 @@
-import { isPlaying, bpm, currentStep, tracks } from './state.js';
+import { isPlaying, bpm, currentStep, tracks } from './state';
 
-let audioCtx = null;
+let audioCtx: AudioContext | null = null;
 let nextNoteTime = 0;
 let currentNote = 0;
-let timerID;
+let timerID: ReturnType<typeof setTimeout> | undefined;
 
 const lookahead = 25.0; // ms
 const scheduleAheadTime = 0.1; // s
@@ -11,13 +11,13 @@ const scheduleAheadTime = 0.1; // s
 // Get or resume audio context
 export function getContext() {
   if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
   }
   return audioCtx;
 }
 
 // Procedural synthesis functions
-function playKick(time) {
+function playKick(time: number) {
   const ctx = getContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
@@ -35,7 +35,7 @@ function playKick(time) {
   osc.stop(time + 0.5);
 }
 
-function playSnare(time) {
+function playSnare(time: number) {
   const ctx = getContext();
 
   // Noise buffer
@@ -76,7 +76,7 @@ function playSnare(time) {
   osc.stop(time + 0.2);
 }
 
-function playHiHat(time, isOpen) {
+function playHiHat(time: number, isOpen: boolean) {
   const ctx = getContext();
 
   const bufferSize = ctx.sampleRate * 0.5;
@@ -113,7 +113,7 @@ function nextNote() {
   currentNote = (currentNote + 1) % 16;
 }
 
-function scheduleNote(beatNumber, time) {
+function scheduleNote(beatNumber: number, time: number) {
   const ctx = getContext();
   const timeDifference = time - ctx.currentTime;
 
