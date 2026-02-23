@@ -2,11 +2,11 @@ import { toggleStep, currentStep, Track } from '../state';
 
 export function TrackRow({ track, trackIndex }: { track: Track, trackIndex: number }) {
   return (
-    <div className="flex items-center gap-2 mb-3 bg-slate-800/50 p-2 rounded-lg hover:bg-slate-800 transition-colors">
-      <div className="w-24 flex-shrink-0 text-right pr-4 font-mono font-medium text-slate-300">
+    <div className="flex items-center gap-2 mb-3 bg-slate-800/50 p-2 rounded-lg hover:bg-slate-800 transition-colors relative">
+      <div className="w-24 sticky left-0 bg-slate-800 z-10 flex-shrink-0 text-right pr-4 py-2 rounded font-mono font-medium text-slate-300 shadow-[4px_0_8px_-4px_rgba(0,0,0,0.3)]">
         {track.name}
       </div>
-      <div className="flex flex-1 gap-1.5 overflow-x-auto pb-1 pr-2 hide-scrollbar">
+      <div className="flex flex-1 gap-1.5">
         {track.steps.map((isActive, stepIndex) => {
           const isCurrent = currentStep.value === stepIndex;
           const isQuarterStart = stepIndex % 4 === 0;
