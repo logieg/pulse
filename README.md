@@ -1,6 +1,8 @@
 # Pulse
 Procedural Music Sequencer 🎶
 
+### [Click here to try it out!](https://logieg.github.io/pulse/)
+
 Pulse is a frontend-only minimalist music sequencer that uses the Web Audio API to procedurally generate sounds.
 
 Preact + TypeScript + Vite + Tailwind CSS
