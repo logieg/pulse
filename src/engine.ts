@@ -1,4 +1,4 @@
-import { isPlaying, bpm, currentStep, tracks } from './state';
+import { isPlaying, bpm, currentStep, tracks, synthSteps, synthWaveform } from './state';
 
 let audioCtx: AudioContext | null = null;
 let nextNoteTime = 0;
@@ -17,6 +17,38 @@ export function getContext() {
 }
 
 // Procedural synthesis functions
+const NOTE_FREQS: Record<string, number> = {
+  'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13,
+  'E4': 329.63, 'F4': 349.23, 'F#4': 369.99, 'G4': 392.00,
+  'G#4': 415.30, 'A4': 440.00, 'A#4': 466.16, 'B4': 493.88
+};
+
+function playSynth(time: number, note: string) {
+  const ctx = getContext();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
+
+  osc.type = synthWaveform.value || 'sawtooth';
+  osc.frequency.setValueAtTime(NOTE_FREQS[note] || 440, time);
+
+  // Filter sweep
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(2000, time);
+  filter.frequency.exponentialRampToValueAtTime(400, time + 0.3);
+
+  // Envelope
+  gain.gain.setValueAtTime(0, time);
+  gain.gain.linearRampToValueAtTime(0.5, time + 0.02); // Attack
+  gain.gain.exponentialRampToValueAtTime(0.01, time + 0.4); // Decay/Release
+
+  osc.connect(filter);
+  filter.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(time);
+  osc.stop(time + 0.5);
+}
 function playKick(time: number) {
   const ctx = getContext();
   const osc = ctx.createOscillator();
@@ -128,6 +160,11 @@ function scheduleNote(beatNumber: number, time: number) {
   if (t[1].steps[beatNumber]) playSnare(time);
   if (t[2].steps[beatNumber]) playHiHat(time, false);
   if (t[3].steps[beatNumber]) playHiHat(time, true);
+
+  const synthNoteArray = synthSteps.value[beatNumber];
+  if (synthNoteArray && synthNoteArray.length > 0) {
+    synthNoteArray.forEach(note => playSynth(time, note));
+  }
 }
 
 function scheduler() {

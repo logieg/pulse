@@ -1,10 +1,19 @@
 import { Controls } from './components/Controls';
-import { Grid } from './components/Grid';
+import { DrumMachine } from './components/DrumMachine';
+import { SynthSequencer } from './components/SynthSequencer';
+import { activeTab, notification } from './state';
 
 export function App() {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-12 px-4 selection:bg-cyan-500/30">
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-4xl relative">
+        {/* Toast Notification */}
+        {notification.value && (
+          <div className="fixed top-8 left-1/2 -translate-x-1/2 bg-indigo-500 text-white px-6 py-2 rounded-full font-bold tracking-wide shadow-[0_0_15px_rgba(99,102,241,0.5)] z-50">
+            {notification.value}
+          </div>
+        )}
+
         {/* Header */}
         <header className="mb-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
@@ -23,7 +32,32 @@ export function App() {
         {/* Main Content */}
         <main className="flex flex-col gap-6">
           <Controls />
-          <Grid />
+          
+          {/* Tabs */}
+          <div className="flex gap-4 border-b border-slate-800 pb-2">
+            <button
+              onClick={() => activeTab.value = 'drums'}
+              className={`text-lg font-bold tracking-wider uppercase px-4 py-2 transition-colors ${
+                activeTab.value === 'drums' 
+                  ? 'text-cyan-400 border-b-2 border-cyan-400' 
+                  : 'text-slate-500 hover:text-slate-300'
+              }`}
+            >
+              Drum Machine
+            </button>
+            <button
+              onClick={() => activeTab.value = 'synth'}
+              className={`text-lg font-bold tracking-wider uppercase px-4 py-2 transition-colors ${
+                activeTab.value === 'synth' 
+                  ? 'text-indigo-400 border-b-2 border-indigo-400' 
+                  : 'text-slate-500 hover:text-slate-300'
+              }`}
+            >
+              Synth Sequencer
+            </button>
+          </div>
+
+          {activeTab.value === 'drums' ? <DrumMachine /> : <SynthSequencer />}
         </main>
         
         {/* Footer */}

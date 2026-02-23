@@ -1,7 +1,7 @@
 import { tracks, currentStep } from '../state';
 import { TrackRow } from './TrackRow';
 
-export function Grid() {
+export function DrumMachine() {
   return (
     <div className="flex flex-col bg-slate-900 rounded-2xl p-4 shadow-2xl border border-slate-800">
       {/* Beat Indicators */}

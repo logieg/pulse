@@ -24,3 +24,19 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+/* Custom Scrollbars */
+.thin-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #334155;
+  border-radius: 4px;
+}
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 transparent;
+}
